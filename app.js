@@ -1,10 +1,17 @@
-var http = require("http"); // 외부 파일 불러왔다는 의미로 두 칸 띄기 
+var http = require("http"); 
+var router = require("./router"); // router.js를 router변수에 넣는다.
 
 
-http.createServer(function(request, response){ //서버생성
-    response.writeHead(200, {"Content-Type":"text/plain"}); // 200: 성공. 대소문자 잘 적어야 오류 안난다.
-    response.write("hello world \n");
-    response.end(); // 응답이 끝났으면 종료한다. 
-}).listen(3030); // 숫자 아무거나 써도 되는데.. 1024번까지 막안놓았을 것 
+var app = http.createServer(function(req, res){ 
+	console.log(req.url);
 
-console.log('Server is running at localhost:3030');
+	// router.js에서 처리해서 app.js로 
+	router.home(req, res); // router.js파일내의 home함수
+	router.detail(req, res);
+	router.contact(req, res); 
+
+})
+
+app.listen(3030, function(){
+	console.log('Server is running at localhost:3030');
+});
